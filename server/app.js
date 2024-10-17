@@ -1,9 +1,12 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyparser = require("body-parser");
+const indexRouter = require("./routes/index");
 const PORT_NUMBER = 8000;
 const app = express();
+
 app.use(bodyparser.json());
+app.use("/api", indexRouter);
 
 const mongoURI = "mongodb://localhost:27017/todolist";
 
