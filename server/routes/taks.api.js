@@ -1,16 +1,13 @@
 const express = require("express");
-const taskControlloer = require("../controller/task.controller");
+const taskController = require("../controller/task.controller");
 const router = express.Router();
 
-router.post("/", taskControlloer.createTask);
+router.post("/", taskController.createTask);
 
-router.get("/", taskControlloer.getTask);
+router.get("/", taskController.getTask);
 
-router.put("/:id", (req, res) => {
-  res.send("put tasks");
-});
-router.delete("/:id", (req, res) => {
-  res.send("delete tasks");
-});
+router.put("/:id", taskController.updateTask);
+
+router.delete("/:id", taskController.deleteTaks);
 
 module.exports = router;
