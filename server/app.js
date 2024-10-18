@@ -2,16 +2,16 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyparser = require("body-parser");
 const indexRouter = require("./routes/index");
+require("dotenv").config();
+const MONGODB_URI_PROD = process.env.MONGODB_URI_PROD;
 const PORT_NUMBER = 8000;
 const app = express();
 
 app.use(bodyparser.json());
 app.use("/api", indexRouter);
 
-const mongoURI = "mongodb://localhost:27017/todolist";
-
 mongoose
-  .connect(mongoURI)
+  .connect(MONGODB_URI_PROD)
   .then(() => {
     console.log("mongoose conected");
   })
