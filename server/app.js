@@ -5,6 +5,7 @@ const indexRouter = require("./routes/index");
 require("dotenv").config();
 const cors = require("cors");
 const MONGODB_URI_PROD = process.env.MONGODB_URI_PROD;
+const PORT = process.env.PORT || 8000;
 
 const app = express();
 
@@ -21,6 +22,6 @@ mongoose
     console.log("DB connection fail", err);
   });
 
-app.listen(8000, () => {
+app.listen(PORT, () => {
   console.log("server on");
 });
