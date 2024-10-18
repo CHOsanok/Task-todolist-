@@ -5,7 +5,7 @@ const indexRouter = require("./routes/index");
 require("dotenv").config();
 const cors = require("cors");
 const MONGODB_URI_PROD = process.env.MONGODB_URI_PROD;
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 4000;
 
 const app = express();
 
