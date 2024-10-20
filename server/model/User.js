@@ -19,9 +19,7 @@ userSchema.methods.generateToken = function () {
   return token;
 };
 userSchema.methods.toJSON = function () {
-  const obj = this._doc;
-  delete obj.password;
-  delete obj.__v;
+  const { __v, password, ...obj } = this._doc;
 
   return obj;
 };
