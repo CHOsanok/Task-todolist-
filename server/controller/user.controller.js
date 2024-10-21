@@ -9,7 +9,9 @@ userController.creatUser = async (req, res) => {
     const { name, email, password } = req.body;
     const user = await User.findOne({ email });
 
-    if (user) throw new Error("이미 가입된 유저가 있습니다.");
+    if (user) {
+      throw new Error("이미 가입된 유저가 있습니다.");
+    }
 
     const salt = bcrypt.genSaltSync(saltRounds);
     const hash = bcrypt.hashSync(password, salt);
@@ -18,8 +20,8 @@ userController.creatUser = async (req, res) => {
     await newUser.save();
 
     res.status(200).json({ status: "success" });
-  } catch (err) {
-    res.status(400).json({ status: "fail", error: err });
+  } catch (error) {
+    res.status(400).json({ status: "fail", error: error.message });
   }
 };
 
