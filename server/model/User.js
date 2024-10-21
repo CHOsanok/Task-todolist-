@@ -1,29 +1,30 @@
-// const mongoose = require("mongoose");
-// const Schema = mongoose.Schema;
-// var jwt = require("jsonwebtoken");
-// require("dotenv").config();
-// const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
-// const userSchema = Schema(
-//   {
-//     name: { type: String, require: true },
-//     email: { type: String, require: true },
-//     password: { type: String, require: true },
-//   },
-//   { timestamps: true }
-// );
+const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
 
-// userSchema.methods.generateToken = function () {
-//   const token = jwt.sign({ _id: this.id }, JWT_SECRET_KEY, { expiresIn: "1d" });
+const userSchema = Schema(
+  {
+    name: { type: String, require: true },
+    email: { type: String, require: true },
+    password: { type: String, require: true },
+  },
+  { timestamps: true }
+);
 
-//   return token;
-// };
-// userSchema.methods.toJSON = function () {
-//   const { __v, password, ...obj } = this._doc;
+userSchema.methods.generateToken = function () {
+  const token = jwt.sign({ _id: this.id }, JWT_SECRET_KEY, { expiresIn: "1d" });
 
-//   return obj;
-// };
+  return token;
+};
+userSchema.methods.toJSON = function () {
+  const { __v, password, ...obj } = this._doc;
 
-// const User = mongoose.model("User", userSchema);
+  return obj;
+};
 
-// module.exports = User;
+const User = mongoose.model("User", userSchema);
+
+module.exports = User;
