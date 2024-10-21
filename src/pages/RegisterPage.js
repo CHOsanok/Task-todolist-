@@ -16,19 +16,15 @@ const RegisterPage = () => {
     e.preventDefault();
 
     try {
-      if (!!password && password === secPassword) {
-        const response = await api.post("/user", { name, email, password });
-        if (response.status === 200) {
-          navigate("/login");
-        } else {
-          throw new Error(response.data.error);
-        }
+      if (password === secPassword) {
+        await api.post("/user", { name, email, password });
+        navigate("/login");
       } else {
         setError("비밀번호가 일치 하지 않습니다.");
         throw new Error("비밀번호가 일치 하지 않습니다.");
       }
     } catch (err) {
-      setError(err.message);
+      setError(err.error);
     }
   };
 
@@ -41,6 +37,7 @@ const RegisterPage = () => {
           <Form.Label>Name</Form.Label>
           <Form.Control
             type="string"
+            required="true"
             placeholder="Name"
             onChange={(e) => setName(e.target.value)}
           />
@@ -50,6 +47,7 @@ const RegisterPage = () => {
           <Form.Label>Email address</Form.Label>
           <Form.Control
             type="email"
+            required="true"
             placeholder="Enter email"
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -59,6 +57,7 @@ const RegisterPage = () => {
           <Form.Label>Password</Form.Label>
           <Form.Control
             type="password"
+            required="true"
             placeholder="Password"
             onChange={(e) => setPassword(e.target.value)}
           />
@@ -68,6 +67,7 @@ const RegisterPage = () => {
           <Form.Label>re-enter the password</Form.Label>
           <Form.Control
             type="password"
+            required="true"
             placeholder="re-enter the password"
             onChange={(e) => setSecPassword(e.target.value)}
           />

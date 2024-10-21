@@ -19,7 +19,8 @@ const LoginPage = () => {
       if (response.status === 200) {
         setUser(response.data.user);
         sessionStorage.setItem("token", response.data.token);
-        api.defaults.headers["authorization"] = "Bearer" + response.data.token;
+        api.defaults.headers["authorization"] = "Bearer " + response.data.token;
+
         setError("");
         navigate("/");
       } else {
@@ -38,6 +39,7 @@ const LoginPage = () => {
           <Form.Label>Email address</Form.Label>
           <Form.Control
             type="email"
+            required="true"
             placeholder="Enter email"
             onChange={(e) => {
               setEmail(e.target.value);
@@ -49,6 +51,7 @@ const LoginPage = () => {
           <Form.Label>Password</Form.Label>
           <Form.Control
             type="password"
+            required="true"
             placeholder="Password"
             onChange={(e) => {
               setPassword(e.target.value);
