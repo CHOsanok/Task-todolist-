@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import api from "../utils/api";
@@ -20,11 +20,14 @@ const RegisterPage = () => {
         await api.post("/user", { name, email, password });
         navigate("/login");
       } else {
-        setError("비밀번호가 일치 하지 않습니다.");
         throw new Error("비밀번호가 일치 하지 않습니다.");
       }
     } catch (err) {
-      setError(err.error);
+      if (err.error) {
+        setError(err.error);
+      } else {
+        setError("비밀번호가 일치 하지 않습니다.");
+      }
     }
   };
 
@@ -37,7 +40,7 @@ const RegisterPage = () => {
           <Form.Label>Name</Form.Label>
           <Form.Control
             type="string"
-            required="true"
+            required={true}
             placeholder="Name"
             onChange={(e) => setName(e.target.value)}
           />
@@ -47,7 +50,7 @@ const RegisterPage = () => {
           <Form.Label>Email address</Form.Label>
           <Form.Control
             type="email"
-            required="true"
+            required={true}
             placeholder="Enter email"
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -57,7 +60,7 @@ const RegisterPage = () => {
           <Form.Label>Password</Form.Label>
           <Form.Control
             type="password"
-            required="true"
+            required={true}
             placeholder="Password"
             onChange={(e) => setPassword(e.target.value)}
           />
@@ -67,7 +70,7 @@ const RegisterPage = () => {
           <Form.Label>re-enter the password</Form.Label>
           <Form.Control
             type="password"
-            required="true"
+            required={true}
             placeholder="re-enter the password"
             onChange={(e) => setSecPassword(e.target.value)}
           />

@@ -4,10 +4,16 @@ import api from "../utils/api";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
+import { useNavigate } from "react-router-dom";
 
 const TodoPage = () => {
   const [todoList, setTodoList] = useState([]);
   const [todoValue, setTodoValue] = useState("");
+  const navigate = useNavigate();
+
+  const checkToken = () => {
+    return sessionStorage.getItem("token");
+  };
 
   const getTask = async () => {
     const response = await api.get("/tasks");
@@ -30,7 +36,13 @@ const TodoPage = () => {
 
   useEffect(() => {
     getTask();
-  }, []);
+    const token = checkToken();
+    if (!token) {
+      navigate("/login");
+    } else {
+      navigate("/");
+    }
+  }, [navigate]);
 
   return (
     <Container>

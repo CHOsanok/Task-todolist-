@@ -21,25 +21,22 @@ const LoginPage = () => {
         sessionStorage.setItem("token", response.data.token);
         api.defaults.headers["authorization"] = "Bearer " + response.data.token;
 
-        setError("");
         navigate("/");
-      } else {
-        setError("아이디 또는 비밀번호가 일치 하지 않습니다.");
-        throw new Error(error);
       }
     } catch (err) {
-      setError(err.message);
+      setError(err.error);
     }
   };
   return (
     <div className="display-center">
+      {error && <div>{error}</div>}
       <Form className="login-box" onSubmit={handleLogin}>
         <h1>로그인</h1>
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>Email address</Form.Label>
           <Form.Control
             type="email"
-            required="true"
+            required={true}
             placeholder="Enter email"
             onChange={(e) => {
               setEmail(e.target.value);
@@ -51,7 +48,7 @@ const LoginPage = () => {
           <Form.Label>Password</Form.Label>
           <Form.Control
             type="password"
-            required="true"
+            required={true}
             placeholder="Password"
             onChange={(e) => {
               setPassword(e.target.value);
