@@ -5,9 +5,11 @@ const taskController = {};
 taskController.createTask = async (req, res) => {
   try {
     const { task, isComplete } = req.body;
-    const newTask = new Task({ task, isComplete });
+    const { userId } = req;
+    const newTask = new Task({ task, isComplete, author: userId });
 
     await newTask.save();
+
     res.status(200).json({ status: "OK", data: newTask });
   } catch (err) {
     res.status(400).json({ status: "fail", error: err });
@@ -16,7 +18,7 @@ taskController.createTask = async (req, res) => {
 
 taskController.getTask = async (req, res) => {
   try {
-    const taksList = await Task.find({});
+    const taksList = await Task.find({}).populate("author");
 
     res.status(200).json({ status: "OK", data: taksList });
   } catch (err) {
