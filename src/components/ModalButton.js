@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Button, Modal } from "react-bootstrap";
+import api from "../utils/api";
 
 const ModalButton = ({ item, setUser }) => {
   const [show, setShow] = useState(false);
@@ -19,12 +20,19 @@ const ModalButton = ({ item, setUser }) => {
     setShow(true);
   };
   const handleOk = () => {
-    if (item === "로그아웃") deleteToken();
+    if (item === "로그아웃") {
+      deleteToken();
+    } else {
+      memberRemoval();
+    }
+    setUser(null);
   };
 
   const deleteToken = () => {
     sessionStorage.removeItem("token");
-    setUser(null);
+  };
+  const memberRemoval = async () => {
+    await api.delete("/user/deleteId");
   };
   return (
     <>

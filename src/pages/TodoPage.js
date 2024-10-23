@@ -41,6 +41,7 @@ const TodoPage = ({ user, setUser }) => {
   useEffect(() => {
     getTasks();
   }, []);
+
   return (
     <Container>
       <div className="userInfo">
@@ -65,7 +66,7 @@ const TodoPage = ({ user, setUser }) => {
         </Col>
       </Row>
 
-      <TodoBoard todoList={todoList} getTasks={getTasks} />
+      <TodoBoard user={user} todoList={todoList} getTasks={getTasks} />
     </Container>
   );
 };

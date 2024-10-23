@@ -27,7 +27,6 @@ function App() {
   useEffect(() => {
     getUser();
   }, []);
-
   return (
     <Routes>
       <Route
