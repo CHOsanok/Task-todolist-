@@ -42,7 +42,7 @@ taskController.updateTask = async (req, res) => {
   }
 };
 
-taskController.deleteTak = async (req, res) => {
+taskController.deleteTask = async (req, res) => {
   try {
     const { id } = req.params;
     const deletedTask = await Task.deleteOne({ _id: id });

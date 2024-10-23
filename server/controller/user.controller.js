@@ -57,4 +57,18 @@ userController.getUser = async (req, res) => {
   }
 };
 
+userController.deleteId = async (req, res, next) => {
+  try {
+    const { userId } = req;
+    const user = await User.deleteOne({ _id: userId });
+    if (!user) {
+      throw new Error("can not find user");
+    }
+    res.status(200).json({ status: "success", user });
+  } catch (error) {
+    res.status(400).json({ status: "fail", error: error.message });
+  }
+  next();
+};
+
 module.exports = userController;
