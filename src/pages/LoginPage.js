@@ -1,21 +1,20 @@
 import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import api from "../utils/api";
 
-const LoginPage = () => {
+const LoginPage = ({ user, setUser }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
+
     try {
       const response = await api.post("/user/login", { email, password });
-
       if (response.status === 200) {
         setUser(response.data.user);
         sessionStorage.setItem("token", response.data.token);
@@ -27,6 +26,9 @@ const LoginPage = () => {
       setError(err.error);
     }
   };
+  if (user) {
+    return <Navigate to={"/"} />;
+  }
   return (
     <div className="display-center">
       {error && <div>{error}</div>}

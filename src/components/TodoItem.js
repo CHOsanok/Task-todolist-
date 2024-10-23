@@ -1,23 +1,23 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Col, Row } from "react-bootstrap";
 import api from "../utils/api";
 
-const TodoItem = ({ item, getTask }) => {
+const TodoItem = ({ item, getTasks }) => {
   const [revise, setRevise] = useState(false);
   const [task, setTask] = useState("");
 
   const handleDelete = async () => {
     await api.delete(`/tasks/${item._id}`);
-    getTask();
+    getTasks();
   };
   const handleIsComplete = async () => {
     await api.put(`/tasks/${item._id}`, { isComplete: !item.isComplete });
-    getTask();
+    getTasks();
   };
   const handleTask = async (task) => {
     await api.put(`/tasks/${item._id}`, { task: task });
     setRevise(!revise);
-    getTask();
+    getTasks();
   };
 
   return (
@@ -69,7 +69,7 @@ const TodoItem = ({ item, getTask }) => {
                 className="button-delete"
                 onClick={() => handleIsComplete()}
               >
-                {item.isComplete ? "끝내지 못했다" : "끝!!!"}
+                {item.isComplete ? "취소" : "끝!!!"}
               </button>
             </div>
           </div>

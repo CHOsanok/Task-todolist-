@@ -30,6 +30,9 @@ const RegisterPage = () => {
       }
     }
   };
+  const cancellBtn = () => {
+    navigate("/login");
+  };
 
   return (
     <div className="display-center">
@@ -78,6 +81,9 @@ const RegisterPage = () => {
 
         <Button className="button-primary" type="submit">
           회원가입
+        </Button>
+        <Button className="button-primary" onClick={cancellBtn}>
+          취소
         </Button>
       </Form>
     </div>

@@ -4,30 +4,34 @@ import api from "../utils/api";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
-import { useNavigate } from "react-router-dom";
+import ModalButton from "../components/ModalButton";
 
-const TodoPage = () => {
+const TodoPage = ({ user, setUser }) => {
   const [todoList, setTodoList] = useState([]);
   const [todoValue, setTodoValue] = useState("");
-  const navigate = useNavigate();
 
-  const checkToken = () => {
-    return sessionStorage.getItem("token");
-  };
-
-  const getTask = async () => {
+  const getTasks = async () => {
     const response = await api.get("/tasks");
-    setTodoList(response.data.data);
+    const addList = [];
+
+    for (let i = 0; i < response.data.data.length; i++) {
+      if (response.data.data[i].author.email === user.email) {
+        addList.push(response.data.data[i]);
+      }
+      setTodoList(addList);
+    }
   };
 
-  const addTask = async () => {
+  const addTasks = async () => {
     try {
       const response = await api.post("/tasks", {
         task: todoValue,
         isComplete: false,
       });
+
       setTodoValue("");
-      getTask();
+      getTasks();
+
       if (!response.status === 200) throw new Error("task can not be added");
     } catch (err) {
       console.log("error", err);
@@ -35,17 +39,15 @@ const TodoPage = () => {
   };
 
   useEffect(() => {
-    getTask();
-    const token = checkToken();
-    if (!token) {
-      navigate("/login");
-    } else {
-      navigate("/");
-    }
-  }, [navigate]);
-
+    getTasks();
+  }, []);
   return (
     <Container>
+      <div className="userInfo">
+        <ModalButton item={"로그아웃"} setUser={setUser} />
+        <ModalButton item={"회원탈퇴"} setUser={setUser} />
+      </div>
+
       <Row className="add-item-row">
         <Col xs={12} sm={10}>
           <input
@@ -57,13 +59,13 @@ const TodoPage = () => {
           />
         </Col>
         <Col xs={12} sm={2}>
-          <button className="button-add" onClick={addTask}>
+          <button className="button-add" onClick={addTasks}>
             추가
           </button>
         </Col>
       </Row>
 
-      <TodoBoard todoList={todoList} getTask={getTask} />
+      <TodoBoard todoList={todoList} getTasks={getTasks} />
     </Container>
   );
 };
